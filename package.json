@@ -9,6 +9,10 @@
   "bin": {
     "electron-app-creator": "./index.js"
   },
+  "keywords": [
+    "electron",
+    "electronjs"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
