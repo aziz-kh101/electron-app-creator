@@ -54,6 +54,8 @@ var pkg = {
     start: "npx electron .",
     build:
       "electron-packager . --overwrite --icon=icons/icon.png  --prune=true --out=release-builds",
+    "build-asar":
+      'electron-packager . --overwrite --asar.unpack="**/node_modules/**" --prune=true --icon=icons/icon.png --out=release-builds',
     "package-mac":
       "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=icons/icon.png  --prune=true --out=release-builds",
     "package-win":
