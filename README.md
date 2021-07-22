@@ -1,4 +1,4 @@
-# elecctron app Creator
+# electron app Creator
 
 This package includes the global command for create electron application.
 
