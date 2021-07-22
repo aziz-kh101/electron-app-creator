@@ -52,13 +52,14 @@ var pkg = {
   main: "src/index.js",
   scripts: {
     start: "npx electron .",
-    build: "electron-packager .",
+    build:
+      "electron-packager . --overwrite --icon=icons/icon.png  --prune=true --out=release-builds",
     "package-mac":
       "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=icons/icon.png  --prune=true --out=release-builds",
     "package-win":
-      "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=icons/icon.png  --prune=true --out=release-builds",
+      "electron-packager . --overwrite --platform=win32 --arch=ia32 --icon=icons/icon.png  --prune=true --out=release-builds",
     "package-linux":
-      "electron-packager . --overwrite --asar=true --platform=linux --arch=x64 --icon=icons/icon.png --prune=true --out=release-builds",
+      "electron-packager . --overwrite --platform=linux --arch=x64 --icon=icons/icon.png --prune=true --out=release-builds",
   },
   dependencies: {
     "electron-squirrel-startup": "^1.0.0",
