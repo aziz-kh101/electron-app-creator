@@ -1,8 +1,8 @@
-# electron app Creator
+# electron app creator
 
 This package includes the global command for create electron application.
 
-## Creating an App
+## Creating App
 
 You’ll need to have Node 16.2.0 or later version on your local development machine
 
@@ -34,7 +34,7 @@ electron
    └── index.js
 ```
 
-> if `-t` flag be used then
+> if `-t or --types` option be used then
 
 ```
 electron
