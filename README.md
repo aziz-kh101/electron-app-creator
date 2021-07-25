@@ -34,6 +34,23 @@ electron
    └── index.js
 ```
 
+> if `-t` flag be used then
+
+```
+electron
+├── icons
+|  ├── icon.ico
+|  └── icon.png
+├── node_modules
+├── package-lock.json
+├── package.json
+├── src
+|  ├── index.css
+|  ├── index.html
+|  └── index.ts
+└── tsconfig.json
+```
+
 No configuration or complicated folder structures, only the files you need to build your app.
 Once the installation is done, you can open your project folder:
 
@@ -46,7 +63,20 @@ Inside the newly created project, you can run some built-in commands:
 ```
 npm start //to start application
 
+npm run build // build with automatic detection of your system
+npm run build-asar // like `npm run build` with `--asar` option on electron-packager
+
 npm run package-mac // build mac application
 npm run package-win // build windows application
 npm run package-linux // build linux application
+```
+
+## Command Line Options
+
+command line flags.
+
+```
+-v, --version  output the version number
+-t, --types    create app with typescript configuration
+-h, --help     display help for command
 ```

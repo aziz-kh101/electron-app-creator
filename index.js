@@ -34,6 +34,7 @@ program
   .action((name) => {
     projectName = name;
   })
+  .option("-t, --types", "create app with typescript configuration")
   .parse(process.argv);
 
 const root = path.join(cwd, projectName);
@@ -72,9 +73,24 @@ var pkg = {
   },
 };
 
-fs.writeFileSync(path.join(root, "package.json"), JSON.stringify(pkg));
+let template;
 
-fse.copySync(path.join(__dirname, "template"), root);
+if (program.opts().types) {
+  template = path.join(__dirname, "template", "typescript");
+
+  pkg["main"] = "dist/index.js";
+  (pkg["scripts"]["start"] = "npm run compile && npx electron ."),
+    (pkg["scripts"]["compile"] =
+      "tsc && npx copyfiles -e src/**/*.ts -F -u 1 src/**/*.*  dist"),
+    (pkg["dependencies"]["typescript"] = "^4.3.5");
+} else {
+  template = path.join(__dirname, "template", "javascript");
+}
+
+fs.writeFileSync(path.join(root, "package.json"), JSON.stringify(pkg, null, 2));
+
+fse.copySync(path.join(__dirname, "template", "base"), root);
+fse.copySync(template, root);
 
 console.log(`path : ${root}`);
 waitText("Installing Packages...");

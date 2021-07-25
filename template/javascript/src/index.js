@@ -14,8 +14,9 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    show: false,
     icon: path.join(__dirname, "../icons/icon.ico"),
-    // allow es6 syntax in html file
+    // Allow es6 syntax in html file
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -24,6 +25,11 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "index.html"));
+
+  // Showing the window after this event will have no visual flash
+  mainWindow.once("ready-to-show", () => {
+    mainWindow.show();
+  });
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -53,3 +59,9 @@ app.on("activate", () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+// handle uncaught exceptions
+process.on("uncaughtException", (error) => {
+  console.log(error);
+  app.quit();
+});
