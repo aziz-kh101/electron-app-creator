@@ -78,5 +78,6 @@ command line flags.
 ```
 -v, --version  output the version number
 -t, --types    create app with typescript configuration
+--use-react    use react application as web content
 -h, --help     display help for command
 ```

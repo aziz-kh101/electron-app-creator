@@ -1,38 +1,53 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, Menu } from "electron";
 import path from "path";
+import { menuTemplate } from "./menu-template";
+import url from "url";
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require("electron-squirrel-startup")) {
-  // eslint-disable-line global-require
-  app.quit();
-}
-
-let mainWindow: BrowserWindow;
+let mainWindow: BrowserWindow | null;
 
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
+    title: "Hello World!",
     width: 800,
     height: 600,
     show: false,
-    icon: path.join(__dirname, "../icons/icon.ico"),
-    // Allow es6 syntax in html file
+    icon: path.join(__dirname, "../../icons/icon.ico"),
     webPreferences: {
+      // Allow es6 syntax in html file
       nodeIntegration: true,
       contextIsolation: false,
+      preload: path.join(__dirname, "preload.js"),
     },
   });
 
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "index.html"));
+  const startUrl = app.isPackaged
+    ? url.format({
+        pathname: path.join(__dirname, "../../build/index.html"),
+        protocol: "file:",
+        slashes: true,
+      })
+    : "http://localhost:3000";
+
+  // load react url
+  mainWindow.loadURL(startUrl);
 
   // Showing the window after this event will have no visual flash
-  mainWindow.once("ready-to-show", () => {
-    mainWindow.show();
+  mainWindow?.once("ready-to-show", () => {
+    mainWindow?.show();
   });
 
+  // free memory on window closed
+  mainWindow?.once("closed", () => {
+    mainWindow = null;
+  });
+
+  // add custom menu
+  const maiMenu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(maiMenu);
+
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools()
 };
 
 // This method will be called when Electron has finished

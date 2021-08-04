@@ -1,13 +1,8 @@
-const { app, BrowserWindow } = require("electron");
-const path = require("path");
+import { app, BrowserWindow, Menu } from "electron";
+import path from "path";
+import { menuTemplate } from "./menu-template";
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require("electron-squirrel-startup")) {
-  // eslint-disable-line global-require
-  app.quit();
-}
-
-let mainWindow;
+let mainWindow: BrowserWindow | null;
 
 const createWindow = () => {
   // Create the browser window.
@@ -15,24 +10,34 @@ const createWindow = () => {
     width: 800,
     height: 600,
     show: false,
-    icon: path.join(__dirname, "../icons/icon.ico"),
-    // Allow es6 syntax in html file
+    icon: path.join(__dirname, "../../icons/icon.ico"),
     webPreferences: {
+      // Allow es6 syntax in html file
       nodeIntegration: true,
       contextIsolation: false,
+      preload: path.join(__dirname, "preload.js"),
     },
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "index.html"));
+  mainWindow?.loadFile(path.join(__dirname, "index.html"));
 
   // Showing the window after this event will have no visual flash
-  mainWindow.once("ready-to-show", () => {
-    mainWindow.show();
+  mainWindow?.once("ready-to-show", () => {
+    mainWindow?.show();
   });
 
+  // free memory on window closed
+  mainWindow?.once("closed", () => {
+    mainWindow = null;
+  });
+
+  // add custom menu
+  const maiMenu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(maiMenu);
+
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools()
 };
 
 // This method will be called when Electron has finished
