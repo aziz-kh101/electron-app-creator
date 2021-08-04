@@ -15,7 +15,7 @@ npx electron-app-creator electron
 > If you've previously installed `electron-app-creator` globally via `npm install -g electron-app-creator`, then
 
 ```
-electron-app-creator electron
+create-electron electron
 ```
 
 It will create a directory called electron inside the current folder.
